@@ -160,6 +160,17 @@ const Home = () => {
           </h3>
         </div>
       </div>
+      <div className="pt-4"></div>
+      <h3>Instrucciones</h3>
+      <p>1.- Entrar a Postman</p>
+      <p>
+        2.- Generar POST en
+        https://playground.4geeks.com/apis/fake/todos/user/fparra
+      </p>
+      <p>
+        3.- El boton LIMPIAR TODAS LAS TAREAS borra el usuario y no permite
+        crear mas tareas
+      </p>
     </div>
   );
 };
