@@ -24,6 +24,31 @@ const Home = () => {
       });
   };
 
+  const handleClick = async () => {
+    try {
+      const response = await fetch(
+        "https://playground.4geeks.com/apis/fake/todos/user/fparra",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify([]),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Solicitud POST exitosa:", data);
+      } else {
+        console.error("Error al hacer la solicitud POST:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error al hacer la solicitud POST:", error);
+      //
+    }
+  };
+
   const addTodo = () => {
     if (inputValue.trim() !== "") {
       const newTodo = {
@@ -146,10 +171,16 @@ const Home = () => {
           </ul>
         </div>
         <div className="container pt-3 d-flex justify-content-center">
-          <button className="btn btn-success" onClick={clearAllTodos}>
+          <button className="btn btn-success mx-3" onClick={clearAllTodos}>
             Limpiar todas las tareas
           </button>
+          <div>
+          <button className="btn btn-success" onClick={handleClick}>
+            Realizar POST
+          </button>
         </div>
+        </div>
+        
         <div className="container pt-3">
           <h3>
             {todos.length === 0
