@@ -39,12 +39,12 @@ const Home = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Solicitud POST exitosa:", data);
+        console.log("POST:", data);
       } else {
-        console.error("Error al hacer la solicitud POST:", response.statusText);
+        console.error("Error post:", response.statusText);
       }
     } catch (error) {
-      console.error("Error al hacer la solicitud POST:", error);
+      console.error("Error post:", error);
       //
     }
   };
@@ -175,12 +175,12 @@ const Home = () => {
             Limpiar todas las tareas
           </button>
           <div>
-          <button className="btn btn-success" onClick={handleClick}>
-            Realizar POST
-          </button>
+            <button className="btn btn-success" onClick={handleClick}>
+              Realizar POST
+            </button>
+          </div>
         </div>
-        </div>
-        
+
         <div className="container pt-3">
           <h3>
             {todos.length === 0
@@ -193,7 +193,7 @@ const Home = () => {
       </div>
       <div className="pt-4"></div>
       <h3>Instrucciones</h3>
-      <p>1.- Entrar a Postman</p>
+      <p>1.- Apretar boton realizar POST o Entrar a Postman</p>
       <p>
         2.- Generar POST en
         https://playground.4geeks.com/apis/fake/todos/user/fparra
