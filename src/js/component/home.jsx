@@ -3,10 +3,12 @@ import React, { useState, useEffect } from "react";
 const Home = () => {
   const [inputValue, setInputValue] = useState("");
   const [todos, setTodos] = useState([]);
+  const [refresh, setRefresh] = useState(false);
+  const [refresh2, setRefresh2] = useState(false);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [refresh, refresh2]);
 
   const fetchData = () => {
     fetch("https://playground.4geeks.com/apis/fake/todos/user/fparra")
@@ -40,6 +42,7 @@ const Home = () => {
       if (response.ok) {
         const data = await response.json();
         console.log("POST:", data);
+        setRefresh(!refresh);
       } else {
         console.error("Error post:", response.statusText);
       }
@@ -116,9 +119,6 @@ const Home = () => {
           throw new Error("Network response was not ok");
         }
         return response.json();
-      })
-      .then(() => {
-        fetchData();
       })
       .catch((error) => {
         console.error("Error clearing all todos:", error);
