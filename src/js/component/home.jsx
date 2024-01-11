@@ -23,33 +23,8 @@ const Home = () => {
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
+       
       });
-  };
-
-  const handleClick = async () => {
-    try {
-      const response = await fetch(
-        "https://playground.4geeks.com/apis/fake/todos/user/fparra",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify([]),
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("POST:", data);
-        setRefresh(!refresh);
-      } else {
-        console.error("Error post:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error post:", error);
-      //
-    }
   };
 
   const addTodo = () => {
@@ -58,13 +33,13 @@ const Home = () => {
         label: inputValue,
         done: false,
       };
-
+  
       fetch("https://playground.4geeks.com/apis/fake/todos/user/fparra", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify([...todos, newTodo]),
+        body: JSON.stringify([newTodo, ...todos ]),
       })
         .then((response) => {
           if (!response.ok) {
@@ -84,22 +59,24 @@ const Home = () => {
 
   const deleteTodo = (index) => {
     const updatedTodos = todos.filter((_, i) => i !== index);
-
+    
     fetch("https://playground.4geeks.com/apis/fake/todos/user/fparra", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(updatedTodos),
-    })
+      
+    } ) 
       .then((response) => {
-        if (!response.ok) {
+          if (!response.ok) {
           throw new Error("Network response was not ok");
-        }
+            }
         return response.json();
       })
       .then(() => {
         fetchData();
+        
       })
       .catch((error) => {
         console.error("Error deleting todo:", error);
@@ -119,10 +96,40 @@ const Home = () => {
           throw new Error("Network response was not ok");
         }
         return response.json();
+       
       })
+      .then(() => {
+         handlePost();
+         })
       .catch((error) => {
         console.error("Error clearing all todos:", error);
       });
+  };
+  
+  const handlePost = async () => {
+    try {
+      const response = await fetch(
+        "https://playground.4geeks.com/apis/fake/todos/user/fparra",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify([]),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("POST:", data);
+        setRefresh2(!refresh2);
+      } else {
+        console.error("Error post:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error post:", error);
+      //
+    }
   };
 
   return (
@@ -175,16 +182,16 @@ const Home = () => {
             Limpiar todas las tareas
           </button>
           <div>
-            <button className="btn btn-success" onClick={handleClick}>
+            <button className="btn btn-success" onClick={handlePost}>
               Realizar POST
             </button>
           </div>
         </div>
 
-        <div className="container pt-3">
+        <div className="container pt-5">
           <h3>
             {todos.length === 0
-              ? ""
+              ? "No hay tareas para mostrar"
               : todos.length === 1
               ? `${todos.length} tarea`
               : `${todos.length} tareas`}
@@ -192,16 +199,7 @@ const Home = () => {
         </div>
       </div>
       <div className="pt-4"></div>
-      <h3>Instrucciones</h3>
-      <p>1.- Apretar boton realizar POST o Entrar a Postman</p>
-      <p>
-        2.- Generar POST en
-        https://playground.4geeks.com/apis/fake/todos/user/fparra
-      </p>
-      <p>
-        3.- El boton LIMPIAR TODAS LAS TAREAS borra el usuario y no permite
-        crear mas tareas
-      </p>
+      
     </div>
   );
 };
