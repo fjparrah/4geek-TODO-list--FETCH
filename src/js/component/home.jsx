@@ -28,12 +28,15 @@ const Home = () => {
   };
 
   const addTodo = () => {
+    
     if (inputValue.trim() !== "") {
       const newTodo = {
         label: inputValue,
         done: false,
       };
-  
+      if (todos.length === 0){
+        handlePost()
+      }
       fetch("https://playground.4geeks.com/apis/fake/todos/user/fparra", {
         method: "PUT",
         headers: {
@@ -46,10 +49,11 @@ const Home = () => {
             throw new Error("Network response was not ok");
           }
           return response.json();
-        })
+          })
         .then(() => {
           setInputValue("");
           fetchData();
+          
         })
         .catch((error) => {
           console.error("Error adding new todo:", error);
@@ -99,7 +103,7 @@ const Home = () => {
        
       })
       .then(() => {
-         handlePost();
+        handlePost();
          })
       .catch((error) => {
         console.error("Error clearing all todos:", error);
@@ -132,6 +136,8 @@ const Home = () => {
     }
   };
 
+  
+
   return (
     <div className="container col-lg-6 col-xs-12">
       <div className="row mt-5">
@@ -156,6 +162,7 @@ const Home = () => {
 
             {todos.length === 0 ? (
               <li>No hay tareas, añadir tareas</li>
+              
             ) : (
               todos.map((item, index) => (
                 <li key={index}>
@@ -181,11 +188,7 @@ const Home = () => {
           <button className="btn btn-success mx-3" onClick={clearAllTodos}>
             Limpiar todas las tareas
           </button>
-          <div>
-            <button className="btn btn-success" onClick={handlePost}>
-              Realizar POST
-            </button>
-          </div>
+         
         </div>
 
         <div className="container pt-5">
